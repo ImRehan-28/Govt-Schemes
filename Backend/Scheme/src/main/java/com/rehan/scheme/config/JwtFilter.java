@@ -32,7 +32,7 @@ public class JwtFilter implements Filter {
 
         // Allow public APIs
         if (path.startsWith("/auth") ||
-                (path.startsWith("/schemes") && method.equals("GET") && !path.startsWith("/schemes/admin"))) {
+                (path.startsWith("/schemes") && method.equals("GET") && !path.contains("/admin"))) {
             chain.doFilter(request, response);
             return;
         }
