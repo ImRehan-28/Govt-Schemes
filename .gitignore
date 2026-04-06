@@ -1,7 +1,6 @@
 # ========================
 # Backend
 # ========================
-Backend/Scheme/src/main/resources/application.properties
 Backend/Scheme/target/
 *.class
 *.jar
