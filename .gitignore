@@ -1,0 +1,32 @@
+# ========================
+# Backend
+# ========================
+Backend/Scheme/src/main/resources/application.properties
+Backend/Scheme/target/
+*.class
+*.jar
+*.war
+
+# ========================
+# Frontend
+# ========================
+frontend/node_modules/
+frontend/.env
+frontend/dist/
+frontend/build/
+
+# ========================
+# Sensitive / Generated
+# ========================
+pdf_out.txt
+.env
+*.log
+
+# ========================
+# IDE / OS
+# ========================
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

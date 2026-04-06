@@ -1,0 +1,16 @@
+GET /schemes/page?page=0&size;=5
+Data Flow
+External API → Fetch → Parse JSON → Save DB → Approve → Frontend Display
+Scheduler
+@Scheduled(cron = "0 0 10 * * ?")
+Error Codes
+Code
+Meaning
+401
+Unauthorized
+403
+Forbidden
+400
+Bad Request
+500
+Server Error
