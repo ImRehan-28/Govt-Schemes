@@ -16,13 +16,16 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log(`[Login] Login attempt - username: ${username}`);
     setLoading(true);
     setError("");
     try {
       const res = await login(username, password);
+      console.log("[Login] Login successful, token received");
       loginUser(res.data);
       navigate("/admin");
     } catch {
+      console.error("[Login] Login failed - invalid credentials");
       setError("Invalid credentials. Use admin / admin123");
     } finally {
       setLoading(false);

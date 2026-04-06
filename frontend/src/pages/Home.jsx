@@ -20,25 +20,28 @@ const Home = () => {
   const [usePagination, setUsePagination] = useState(true);
 
   const fetchPaginated = async (p) => {
+    console.log(`[Home] fetchPaginated called - page: ${p}`);
     setLoading(true);
     setError("");
     try {
       const res = await getSchemesWithPagination(p - 1, PAGE_SIZE);
       if (res.data && res.data.length > 0) {
+        console.log(`[Home] Paginated schemes loaded - count: ${res.data.length}`);
         setSchemes(res.data);
         setTotalPages(res.data.length < PAGE_SIZE ? p : p + 1);
       } else {
-        // fallback: load all approved schemes
+        console.log("[Home] No paginated data, falling back to getAllSchemes");
         const fallback = await getAllSchemes();
         setSchemes(fallback.data || []);
         setTotalPages(1);
       }
     } catch {
-      // fallback on error too
+      console.warn("[Home] Paginated fetch failed, trying fallback");
       try {
         const fallback = await getAllSchemes();
         setSchemes(fallback.data || []);
       } catch {
+        console.error("[Home] Fallback also failed");
         setError("Failed to load schemes. Make sure the backend is running on port 8080.");
       }
     } finally {
@@ -47,13 +50,16 @@ const Home = () => {
   };
 
   const fetchFiltered = async (category, state) => {
+    console.log(`[Home] fetchFiltered called - category: ${category}, state: ${state}`);
     setLoading(true);
     setError("");
     setUsePagination(false);
     try {
       const res = await getAllSchemes(category, state);
+      console.log(`[Home] Filtered schemes loaded - count: ${res.data?.length}`);
       setSchemes(res.data || []);
     } catch {
+      console.error("[Home] fetchFiltered failed");
       setError("Failed to load schemes.");
     } finally {
       setLoading(false);
@@ -65,6 +71,7 @@ const Home = () => {
   }, [page]);
 
   const handleFilter = (category, state) => {
+    console.log(`[Home] Filter applied - category: ${category}, state: ${state}`);
     if (!category && !state) {
       setUsePagination(true);
       setPage(1);

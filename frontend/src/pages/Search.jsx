@@ -17,13 +17,16 @@ const Search = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!keyword.trim()) return;
+    console.log(`[Search] Searching for keyword: "${keyword.trim()}"`);
     setLoading(true);
     setError("");
     setSearched(true);
     try {
       const res = await searchSchemes(keyword.trim());
+      console.log(`[Search] Results found - count: ${res.data?.length}`);
       setResults(res.data);
     } catch {
+      console.error("[Search] Search failed");
       setError("Search failed. Please try again.");
     } finally {
       setLoading(false);

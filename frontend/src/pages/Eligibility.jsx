@@ -21,6 +21,7 @@ const Eligibility = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("[Eligibility] Checking eligibility with params:", form);
     setLoading(true);
     setError("");
     setSearched(true);
@@ -33,8 +34,10 @@ const Eligibility = () => {
         ...(form.gender && { gender: form.gender }),
       };
       const res = await getEligibleSchemes(params);
+      console.log(`[Eligibility] Results found - count: ${res.data?.length}`);
       setResults(res.data);
     } catch {
+      console.error("[Eligibility] Failed to fetch eligible schemes");
       setError("Failed to fetch eligible schemes.");
     } finally {
       setLoading(false);

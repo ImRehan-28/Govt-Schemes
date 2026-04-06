@@ -16,9 +16,16 @@ const SchemeDetail = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log(`[SchemeDetail] Loading scheme id: ${id}`);
     getSchemeById(id)
-      .then((res) => setScheme(res.data))
-      .catch(() => setError("Scheme not found or not approved yet."))
+      .then((res) => {
+        console.log("[SchemeDetail] Scheme loaded:", res.data?.name);
+        setScheme(res.data);
+      })
+      .catch(() => {
+        console.error(`[SchemeDetail] Failed to load scheme id: ${id}`);
+        setError("Scheme not found or not approved yet.");
+      })
       .finally(() => setLoading(false));
   }, [id]);
 

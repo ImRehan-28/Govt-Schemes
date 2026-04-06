@@ -38,13 +38,16 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const fetchAllAdmin = async () => {
+    console.log("[AdminDashboard] Fetching all schemes");
     setLoading(true);
     setError("");
     try {
       const res = await getAllSchemesAdmin();
+      console.log(`[AdminDashboard] Schemes loaded - count: ${res.data?.length}`);
       setAllSchemes(res.data || []);
     } catch (err) {
       const status = err?.response?.status;
+      console.error(`[AdminDashboard] Fetch failed - status: ${status}`);
       if (status === 401 || status === 403) {
         navigate("/login");
       } else {
@@ -60,33 +63,42 @@ const AdminDashboard = () => {
   }, []);
 
   const handleApprove = async (id) => {
+    console.log(`[AdminDashboard] Approving scheme id: ${id}`);
     try {
       await approveScheme(id);
+      console.log(`[AdminDashboard] Scheme ${id} approved successfully`);
       setSnack("Scheme approved!");
       fetchAllAdmin();
     } catch {
+      console.error(`[AdminDashboard] Failed to approve scheme id: ${id}`);
       setSnack("Failed to approve.");
     }
   };
 
   const handleReject = async (id) => {
+    console.log(`[AdminDashboard] Rejecting scheme id: ${id}`);
     try {
       await rejectScheme(id);
+      console.log(`[AdminDashboard] Scheme ${id} rejected successfully`);
       setSnack("Scheme rejected!");
       fetchAllAdmin();
     } catch {
+      console.error(`[AdminDashboard] Failed to reject scheme id: ${id}`);
       setSnack("Failed to reject.");
     }
   };
 
   const handleFetchGovt = async () => {
+    console.log("[AdminDashboard] Fetching govt API schemes");
     setFetchingGovt(true);
     try {
       await fetchGovtSchemes();
+      console.log("[AdminDashboard] Govt schemes fetched successfully");
       setSnack("Govt schemes fetched and saved as PENDING!");
       fetchAllAdmin();
     } catch (err) {
       const msg = err?.response?.data || err?.message || "Failed to fetch govt schemes.";
+      console.error(`[AdminDashboard] Govt fetch failed: ${msg}`);
       setSnack(`Error: ${msg}`);
     } finally {
       setFetchingGovt(false);
@@ -97,14 +109,17 @@ const AdminDashboard = () => {
 
   const handleCreateScheme = async (e) => {
     e.preventDefault();
+    console.log("[AdminDashboard] Creating new scheme:", form);
     setFormLoading(true);
     try {
       await createScheme(form);
+      console.log("[AdminDashboard] Scheme created successfully");
       setSnack("Scheme created successfully!");
       setDialogOpen(false);
       setForm(emptyForm);
       fetchAllAdmin();
     } catch {
+      console.error("[AdminDashboard] Failed to create scheme");
       setSnack("Failed to create scheme.");
     } finally {
       setFormLoading(false);
