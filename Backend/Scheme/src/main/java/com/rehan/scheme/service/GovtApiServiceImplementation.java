@@ -15,11 +15,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 @Service
 public class GovtApiServiceImplementation implements GovtApiService {
 
     @Autowired
     private SchemeRepository schemeRepo;
+
+    @Value("${govt.api.key}")
+    private String apiKey;
+
+    @Value("${govt.api.resource.id}")
+    private String resourceId;
 
     @Override
     public void fetchAndSaveSchemes() {
@@ -27,7 +35,7 @@ public class GovtApiServiceImplementation implements GovtApiService {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper mapper = new ObjectMapper();
 
-        String url = "https://api.data.gov.in/resource/1bc2866f-dddd-48b7-89ad-b5dc423d00eb?api-key=579b464db66ec23bdd000001fe3dbb5423e44bc249bf5bf15d61f6f5&format=json&limit=20"; // replace
+        String url = "https://api.data.gov.in/resource/" + resourceId + "?api-key=" + apiKey + "&format=json&limit=20";
 
         try {
             HttpHeaders headers = new HttpHeaders();
